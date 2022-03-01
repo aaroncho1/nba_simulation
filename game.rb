@@ -24,17 +24,31 @@ class NbaSimulationGame
         
     end
 
+    def first_quarter_over?
+        game_clock <= 2160
+    end
+
     def tip_off_result
         tip_off_index = rand(2)
         @current_team = tip_off_index == 0 ? @away_team : @home_team
         display.play_by_play << "#{@current_team.name} win tipoff"
+        @current_team
     end
 
     def run
         debugger
+        tip_off_result
         until game_over?
-            tip_off_result
-            play_possession
+            until first_quarter_over?
+                play_possession
+                switch_team
+            end
+            @current_team = tip_off_result == @away_team ? @home_team : @away_team
+            until second_quarter_over?
+                play_possession
+                switch_team
+            end
+
         end
     end
 
