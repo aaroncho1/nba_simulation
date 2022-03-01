@@ -18,10 +18,17 @@ class NbaSimulationGame
     end
 
     def play_possession
+        
+    end
+
+    def tip_off_result
+        tip_off_index = rand(2)
+        @current_team = tip_off_index == 0 ? @away_team : @home_team
     end
 
     def run
         until game_over?
+            tip_off_result
             play_possession
         end
     end
