@@ -11,6 +11,7 @@ class NbaSimulationGame
         @players = []
         @game_clock = 2880
         @current_team = @away_team
+        @display = Display.new
     end
 
     def game_over?
@@ -24,6 +25,7 @@ class NbaSimulationGame
     def tip_off_result
         tip_off_index = rand(2)
         @current_team = tip_off_index == 0 ? @away_team : @home_team
+
     end
 
     def run
