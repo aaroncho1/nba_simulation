@@ -5,6 +5,7 @@ class NbaSimulationGame
 
     attr_accessor :game_clock
     attr_reader :display
+
     
     #1 nba quarter has 720 second quarters * 4 = 2880
     def initialize(away_team, home_team)
@@ -14,12 +15,24 @@ class NbaSimulationGame
         @display = Display.new(0)
     end
 
+    def second_chance_result
+        "or"
+    end
+
+    def foul
+        "f"
+    end
+
     def game_over?
         game_clock <= 0
     end
 
     def play_possession
-        @current_team.get_result
+        result = @current_team.get_result
+        play_posession if result == second_chance_result
+        2.times do
+        @current_team.get_ft_result if result == foul
+        end
     end
 
     def first_quarter_over?
