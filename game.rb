@@ -19,7 +19,7 @@ class NbaSimulationGame
     end
 
     def play_possession
-        @current_team.result
+        @current_team.get_result
     end
 
     def first_quarter_over?
