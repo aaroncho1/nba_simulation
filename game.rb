@@ -13,7 +13,7 @@ class NbaSimulationGame
         @players = []
         @game_clock = 2880
         @current_team = @away_team
-        @display = Display.new(0, 0, 0)
+        @display = Display.new(0)
     end
 
     def game_over?
