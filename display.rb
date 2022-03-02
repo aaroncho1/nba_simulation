@@ -4,5 +4,4 @@ class Display
         @play_by_play = []
         @play = play
     end
-
 end

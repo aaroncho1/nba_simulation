@@ -28,6 +28,14 @@ class NbaSimulationGame
         game_clock <= 2160
     end
 
+    def second_quarter_over?
+        game_clock <= 1440
+    end
+
+    def third_quarter_over?
+        game_clock <= 720
+    end
+
     def tip_off_result
         tip_off_index = rand(2)
         @current_team = tip_off_index == 0 ? @away_team : @home_team
@@ -38,20 +46,26 @@ class NbaSimulationGame
     def run
         debugger
         tip_off_result
+        until first_quarter_over?
+            play_possession
+            switch_team
+        end
+        @current_team = tip_off_result == @away_team ? @home_team : @away_team
+        until second_quarter_over?
+            play_possession
+            switch_team
+        end
+        @current_team = tip_off_result == @away_team ? @home_team : @away_team
+        until third_quarter_over?
+            play_possession
+            switch_team
+        end
+        @current_team = tip_off_result == @away_team ? @away_team : @home_team
         until game_over?
-            until first_quarter_over?
-                play_possession
-                switch_team
-            end
-            @current_team = tip_off_result == @away_team ? @home_team : @away_team
-            until second_quarter_over?
-                play_possession
-                switch_team
-            end
-
+            play_possession
+            switch_team
         end
     end
-
 end
 
-NbaSimulationGame.new(Team.new("Phoenix Suns"), Team.new("Golden State Warriors")).run
+NbaSimulationGame.new(Team.new("Phoenix Suns", 0), Team.new("Golden State Warriors", 0)).run
