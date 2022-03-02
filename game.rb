@@ -66,6 +66,10 @@ class NbaSimulationGame
     end
 end
 
-suns_preoff_frequencies = []
-suns_postoff_frequencies
-NbaSimulationGame.new(Team.new("Phoenix Suns", 0), Team.new("Golden State Warriors", 0)).run
+# suns and warriors offensive result frequencies in an array
+#2m/a = 2pt fgm/ fga , 3m/a = 3pt, f = foul on other teams, or = offensive rebound, to = turnover
+suns_frequencies = (["2m"] * 32) + (["2a"] * 62) + (["3m"] * 11) + (["3a"] * 31) + (["f"] * 7) + (["or"] * 10) + (["to"] * 9)
+warriors_frequencies = (["2m"] * 26) + (["2a"] * 47) + (["3m"] * 14) + (["3a"] * 39) + (["f"] * 11) + (["or"] * 10) + (["to"] * 13)
+suns_ft_frequencies = (["ftm"] * 16) + (["fta"] * 20)
+warriors_ft_frequencies = (["ftm"] * 16) + (["fta"] * 22)
+NbaSimulationGame.new(Team.new("Phoenix Suns", 0, suns_frequencies, suns_ft_frequencies), Team.new("Golden State Warriors", 0, warriors_frequencies, warriors_ft_frequencies)).run
