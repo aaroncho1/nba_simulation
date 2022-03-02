@@ -1,7 +1,6 @@
 class NbaSimulationGame
     require_relative 'display'
     require_relative 'teams'
-    require_relative 'player'
     require 'byebug'
 
     attr_accessor :game_clock
@@ -10,7 +9,6 @@ class NbaSimulationGame
     #1 nba quarter has 720 second quarters * 4 = 2880
     def initialize(away_team, home_team)
         @away_team, @home_team = away_team, home_team
-        @players = []
         @game_clock = 2880
         @current_team = @away_team
         @display = Display.new(0)
@@ -68,4 +66,6 @@ class NbaSimulationGame
     end
 end
 
+suns_preoff_frequencies = []
+suns_postoff_frequencies
 NbaSimulationGame.new(Team.new("Phoenix Suns", 0), Team.new("Golden State Warriors", 0)).run
