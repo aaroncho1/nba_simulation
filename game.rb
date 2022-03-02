@@ -10,7 +10,7 @@ class NbaSimulationGame
     def initialize(away_team, home_team)
         @away_team, @home_team = away_team, home_team
         @game_clock = 2880
-        @current_team = @away_team
+        @current_team = @home_team
         @display = Display.new(0)
     end
 
@@ -19,7 +19,7 @@ class NbaSimulationGame
     end
 
     def play_possession
-        
+        @current_team.result
     end
 
     def first_quarter_over?

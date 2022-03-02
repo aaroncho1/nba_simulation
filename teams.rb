@@ -7,4 +7,7 @@ class Team
         @posession_frequencies, @ft_frequencies = posession_frequencies, ft_frequencies
     end
 
+    def result
+    end
+
 end
