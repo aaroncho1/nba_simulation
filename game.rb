@@ -29,9 +29,12 @@ class NbaSimulationGame
 
     def play_possession
         result = @current_team.get_result
+        display.
         play_posession if result == second_chance_result
-        2.times do
-        @current_team.get_ft_result if result == foul
+        if result == foul
+            2.times do
+            @current_team.get_ft_result
+            end
         end
     end
 
@@ -50,7 +53,7 @@ class NbaSimulationGame
     def tip_off_result
         tip_off_index = rand(2)
         @current_team = tip_off_index == 0 ? @away_team : @home_team
-        display.play_by_play << "#{@current_team.name} win tipoff"
+        display.posession_results << "#{@current_team.name} win tipoff"
         @current_team
     end
 
