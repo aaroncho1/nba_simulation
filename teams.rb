@@ -1,6 +1,6 @@
 class Team 
     attr_reader :name, :posession_frequencies, :ft_frequencies
-    attr_accessor :score
+    attr_accessor :score, :team_fouls
     def initialize(name, score, possession_frequencies, ft_frequencies)
         @name = name
         @score = score

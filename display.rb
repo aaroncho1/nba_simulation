@@ -1,5 +1,3 @@
-SHOT_MADE = ["2m", "3m"]
-
 class Display
     attr_accessor :posession_results, :play
     def initialize(play)
@@ -14,10 +12,21 @@ class Display
     end
 
     def add_play(result)
-        if SHOT_MADE.include?(result)
+        case result
+        when "3m", "2m"
             posession_results << "#{result[0]} pt made"
-        elsif result == "f"
+        when "3a", "2a"
+            posession_results << "#{result[0]} pt missed"
+        when "sf"
             posession_results << "shooting foul"
+        when "nsf"
+            posession_results << "non-shooting foul"
+        when "or" 
+            posession_results << "offensive rebound"
+        when "to"
+            posession_results << "turnover"
+        end
+
 
     end
 end

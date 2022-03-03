@@ -29,15 +29,28 @@ class NbaSimulationGame
         game_clock <= 0
     end
 
+    def score_team(made_shot)
+        if made_shot == "3m"
+            @offensive_team.score += 3
+        elsif made_shot == "2m"
+            @offensive_team.score += 2
+        else   
+            @offensive_team.score += 1
+        end
+    end
+
     def play_possession
         result = @offensive_team.get_result
         display.add_play(result)
-        if result == second_chance_result
+        if result == "3m" || result == "2m"
+            score_team(result)
+        elsif result == second_chance_result
             play_possession
         elsif result == foul
             2.times do
             @offensive_team.get_ft_result
             end
+            @defensive_team.team_fouls += 1
         end
     end
 
