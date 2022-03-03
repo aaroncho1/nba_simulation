@@ -12,7 +12,8 @@ class NbaSimulationGame
     def initialize(away_team, home_team)
         @away_team, @home_team = away_team, home_team
         @game_clock = 2880
-        @current_team = @home_team
+        @offensive_team = nil
+        @defensive_team = nil
         @display = Display.new(0)
     end
 
@@ -29,13 +30,13 @@ class NbaSimulationGame
     end
 
     def play_possession
-        result = @current_team.get_result
+        result = @offensive_team.get_result
         display.add_play(result)
         if result == second_chance_result
             play_possession
         elsif result == foul
             2.times do
-            @current_team.get_ft_result
+            @offensive_team.get_ft_result
             end
         end
     end
@@ -54,9 +55,10 @@ class NbaSimulationGame
 
     def tip_off_result
         tip_off_index = rand(2)
-        @current_team = tip_off_index == 0 ? @away_team : @home_team
-        display.posession_results << "#{@current_team.name} win tipoff"
-        @current_team
+        @offensive_team = tip_off_index == 0 ? @away_team : @home_team
+        @defensive_team = @offensive_team == @away_team ? @home_team : @away_team
+        display.posession_results << "#{@offensive_team.name} win tipoff"
+        @offensive_team
     end
 
     def run
@@ -66,17 +68,17 @@ class NbaSimulationGame
             play_possession
             switch_team
         end
-        @current_team = tip_off_result == @away_team ? @home_team : @away_team
+        @offensive_team = tip_off_result == @away_team ? @home_team : @away_team
         until second_quarter_over?
             play_possession
             switch_team
         end
-        @current_team = tip_off_result == @away_team ? @home_team : @away_team
+        @offensive_team = tip_off_result == @away_team ? @home_team : @away_team
         until third_quarter_over?
             play_possession
             switch_team
         end
-        @current_team = tip_off_result == @away_team ? @away_team : @home_team
+        @offensive_team = tip_off_result == @away_team ? @away_team : @home_team
         until game_over?
             play_possession
             switch_team
