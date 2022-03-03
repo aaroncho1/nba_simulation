@@ -34,8 +34,6 @@ class NbaSimulationGame
             @offensive_team.score += 3
         elsif made_shot == "2m"
             @offensive_team.score += 2
-        else   
-            @offensive_team.score += 1
         end
     end
 
@@ -48,7 +46,12 @@ class NbaSimulationGame
             play_possession
         elsif result == foul
             2.times do
-            @offensive_team.get_ft_result
+            ft_result = @offensive_team.get_ft_result
+            if ft_result == "ftm"
+                display.posession_results << "free throw made" 
+                @offensive_team.score += 1
+            else
+                display.posession_results << "free throw missed" 
             end
             @defensive_team.team_fouls += 1
         end

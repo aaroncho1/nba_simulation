@@ -18,4 +18,5 @@ class Team
         rand_ind = rand(ft_frequencies.length)
         result = ft_frequencies.shuffle[rand_ind]
         result
+    end
 end
