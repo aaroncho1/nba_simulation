@@ -5,6 +5,7 @@ class Team
         @name = name
         @score = score
         @posession_frequencies, @ft_frequencies = posession_frequencies, ft_frequencies
+        @team_fouls = 0
     end
 
     def get_result

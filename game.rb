@@ -85,7 +85,7 @@ class NbaSimulationGame
 end
 
 # suns and warriors offensive result frequencies in an array
-#2m/a = 2pt fg made/ missed , 3m/a = 3pt made/ missed f = foul on other teams, or = offensive rebound, to = turnover
+#2m/a = 2pt fg made/ missed , 3m/a = 3pt made/ missed sf/nsf = shooting/ non shooting foul on other team, or = offensive rebound, to = turnover
 suns_frequencies = (["2m"] * 32) + (["2a"] * 30) + (["3m"] * 11) + (["3a"] * 20) + (["sf"] * 7) + (["nsf"] * 2) + (["or"] * 10) + (["to"] * 9)
 warriors_frequencies = (["2m"] * 26) + (["2a"] * 21) + (["3m"] * 14) + (["3a"] * 25) + (["f"] * 11) + (["nsf"] * 2) (["or"] * 10) + (["to"] * 13)
 suns_ft_frequencies = (["ftm"] * 16) + (["fta"] * 4)
