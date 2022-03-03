@@ -29,7 +29,7 @@ class NbaSimulationGame
 
     def play_possession
         result = @current_team.get_result
-        display.
+        display.add_play(result)
         play_posession if result == second_chance_result
         if result == foul
             2.times do
