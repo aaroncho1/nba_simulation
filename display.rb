@@ -26,7 +26,5 @@ class Display
         when "to"
             posession_results << "turnover"
         end
-
-
     end
 end
