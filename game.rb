@@ -54,9 +54,26 @@ class NbaSimulationGame
         end
     end
 
+    def add_play(result)
+        case result
+        when "3m", "2m"
+            display.possession_results << "#{result[0]} pt made"
+        when "3a", "2a"
+            display.possession_results << "#{result[0]} pt missed"
+        when "sf"
+            display.possession_results << "shooting foul"
+        when "nsf"
+            display.possession_results << "non-shooting foul"
+        when "or" 
+            display.possession_results << "offensive rebound"
+        when "to"
+            display.possession_results << "turnover"
+        end
+    end
+
     def play_possession
         result = @offensive_team.get_result
-        display.add_play(result)
+        add_play(result)
         if result == "3m" || result == "2m"
             score_team(result)
         elsif result == second_chance_result
