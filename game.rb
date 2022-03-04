@@ -21,7 +21,7 @@ class NbaSimulationGame
         "or"
     end
 
-    def foul
+    def shooting_foul
         "sf"
     end
 
@@ -57,39 +57,37 @@ class NbaSimulationGame
     def add_play(result)
         case result
         when "3m", "2m"
-            display.possession_results << "#{result[0]} pt made  (#{live_score})"
+            display.possession_results << "#{@offensive_team.name} #{result[0]} pt made #{live_score}"
         when "3a", "2a"
-            display.possession_results << "#{result[0]} pt missed  (#{live_score})"
-        when "sf"
-            display.possession_results << "shooting foul"
+            display.possession_results << "#{@offensive_team.name} #{result[0]} pt missed #{live_score}"
         when "nsf"
-            display.possession_results << "non-shooting foul"
-        when "or" 
-            display.possession_results << "offensive rebound"
+            display.possession_results << "#{@offensive_team.name} non-shooting foul"
         when "to"
-            display.possession_results << "turnover"
+            display.possession_results << "#{@offensive_team.name} turnover"
         end
     end
 
     def play_possession
         result = @offensive_team.get_result
-        add_play(result)
         if result == "3m" || result == "2m"
             score_team(result)
         elsif result == second_chance_result
+            display.possession_results << "#{@offensive_team.name} offensive rebound"
             play_possession
-        elsif result == foul
+        elsif result == shooting_foul
+            display.possession_results << "#{@offensive_team.name} shooting foul"
             2.times do
                 ft_result = @offensive_team.get_ft_result
                 if ft_result == "ftm"
-                    display.possession_results << "free throw made  (#{live_score})" 
+                    display.possession_results << "#{@offensive_team.name} free throw made #{live_score}" 
                     @offensive_team.score += 1
                 else
-                    display.possession_results << "free throw missed  (#{live_score})" 
+                    display.possession_results << "#{@offensive_team.name} free throw missed #{live_score}" 
                 end
             end
             @defensive_team.team_fouls += 1
         end
+        add_play(result)
         simulate_game_clock
     end
 
