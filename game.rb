@@ -36,6 +36,23 @@ class NbaSimulationGame
         end
     end
 
+    def fast_break_time
+        random_num = rand(6)
+        seconds = (2..7).to_a.shuffle[random_num]
+        seconds
+    end
+
+    def possession_time
+
+    def simulate_game_clock
+        rand_time = rand(100)
+        if rand_time.between?(0,12)
+            game_clock -= fast_break_time
+        else    
+            game_clock -= possession_time
+
+    end
+
     def play_possession
         result = @offensive_team.get_result
         display.add_play(result)
@@ -47,14 +64,15 @@ class NbaSimulationGame
             2.times do
                 ft_result = @offensive_team.get_ft_result
                 if ft_result == "ftm"
-                    display.posession_results << "free throw made" 
+                    display.possession_results << "free throw made" 
                     @offensive_team.score += 1
                 else
-                    display.posession_results << "free throw missed" 
+                    display.possession_results << "free throw missed" 
                 end
             end
             @defensive_team.team_fouls += 1
         end
+        simulate_game_clock
     end
 
     def first_quarter_over?
@@ -73,7 +91,7 @@ class NbaSimulationGame
         tip_off_index = rand(2)
         @offensive_team = tip_off_index == 0 ? @away_team : @home_team
         @defensive_team = @offensive_team == @away_team ? @home_team : @away_team
-        display.posession_results << "#{@offensive_team.name} win tipoff"
+        display.possession_results << "#{@offensive_team.name} win tipoff"
         @offensive_team
     end
 

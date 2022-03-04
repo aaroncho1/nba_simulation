@@ -1,12 +1,12 @@
 class Display
-    attr_accessor :posession_results, :play
+    attr_accessor :possession_results, :play
     def initialize(play)
-        @posession_results = []
+        @possession_results = []
         @play = play
     end
 
     def play_by_play
-        posession_results.each do |play|
+        possession_results.each do |play|
             puts play
         end
     end
@@ -14,17 +14,17 @@ class Display
     def add_play(result)
         case result
         when "3m", "2m"
-            posession_results << "#{result[0]} pt made"
+            possession_results << "#{result[0]} pt made"
         when "3a", "2a"
-            posession_results << "#{result[0]} pt missed"
+            possession_results << "#{result[0]} pt missed"
         when "sf"
-            posession_results << "shooting foul"
+            possession_results << "shooting foul"
         when "nsf"
-            posession_results << "non-shooting foul"
+            possession_results << "non-shooting foul"
         when "or" 
-            posession_results << "offensive rebound"
+            possession_results << "offensive rebound"
         when "to"
-            posession_results << "turnover"
+            possession_results << "turnover"
         end
     end
 end
