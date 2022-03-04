@@ -43,6 +43,10 @@ class NbaSimulationGame
     end
 
     def possession_time
+        random_num = rand(17)
+        seconds = (8..24).to_a.shuffle[random_num]
+        seconds
+    end
 
     def simulate_game_clock
         rand_time = rand(100)
@@ -50,7 +54,7 @@ class NbaSimulationGame
             game_clock -= fast_break_time
         else    
             game_clock -= possession_time
-
+        end
     end
 
     def play_possession
@@ -99,6 +103,8 @@ class NbaSimulationGame
         @offensive_team = @offensive_team == @away_team ? @home_team : @away_team
     end
 
+    def final_score
+
     def run
         # debugger
         tip_off_result
@@ -121,6 +127,7 @@ class NbaSimulationGame
             play_possession
             switch_team
         end
+        final_score
     end
 end
 
