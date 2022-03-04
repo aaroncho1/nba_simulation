@@ -191,4 +191,4 @@ suns_frequencies = (["2m"] * 32) + (["2a"] * 30) + (["3m"] * 11) + (["3a"] * 20)
 warriors_frequencies = (["2m"] * 26) + (["2a"] * 21) + (["3m"] * 14) + (["3a"] * 25) + (["f"] * 11) + (["nsf"] * 2) + (["or"] * 10) + (["to"] * 13)
 suns_ft_frequencies = (["ftm"] * 16) + (["fta"] * 4)
 warriors_ft_frequencies = (["ftm"] * 16) + (["fta"] * 6)
-NbaSimulationGame.new(Team.new("Phoenix Suns", 0, suns_frequencies, suns_ft_frequencies), Team.new("Golden State Warriors", 0, warriors_frequencies, warriors_ft_frequencies)).run
+NbaSimulationGame.new(Team.new("Phoenix Suns", "PHX", 0, suns_frequencies, suns_ft_frequencies), Team.new("Golden State Warriors", "GSW", 0, warriors_frequencies, warriors_ft_frequencies)).run
