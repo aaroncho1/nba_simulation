@@ -57,13 +57,13 @@ class NbaSimulationGame
     def add_play(result)
         case result
         when "3m", "2m"
-            display.possession_results << "#{@offensive_team.name} #{result[0]} pt made #{live_score}"
+            display.possession_results << "#{@offensive_team.abbreviation} #{result[0]} pt made #{live_score}"
         when "3a", "2a"
-            display.possession_results << "#{@offensive_team.name} #{result[0]} pt missed #{live_score}"
+            display.possession_results << "#{@offensive_team.abbreviation} #{result[0]} pt missed #{live_score}"
         when "nsf"
-            display.possession_results << "#{@offensive_team.name} non-shooting foul"
+            display.possession_results << "#{@offensive_team.abbreviation} non-shooting foul"
         when "to"
-            display.possession_results << "#{@offensive_team.name} turnover"
+            display.possession_results << "#{@offensive_team.abbreviation} turnover"
         end
     end
 
@@ -72,17 +72,17 @@ class NbaSimulationGame
         if result == "3m" || result == "2m"
             score_team(result)
         elsif result == second_chance_result
-            display.possession_results << "#{@offensive_team.name} offensive rebound"
+            display.possession_results << "#{@offensive_team.abbreviation} offensive rebound"
             play_possession
         elsif result == shooting_foul
-            display.possession_results << "#{@offensive_team.name} shooting foul"
+            display.possession_results << "#{@offensive_team.abbreviation} shooting foul"
             2.times do
                 ft_result = @offensive_team.get_ft_result
                 if ft_result == "ftm"
-                    display.possession_results << "#{@offensive_team.name} free throw made #{live_score}" 
+                    display.possession_results << "#{@offensive_team.abbreviation} free throw made #{live_score}" 
                     @offensive_team.score += 1
                 else
-                    display.possession_results << "#{@offensive_team.name} free throw missed #{live_score}" 
+                    display.possession_results << "#{@offensive_team.abbreviation} free throw missed #{live_score}" 
                 end
             end
             @defensive_team.team_fouls += 1
