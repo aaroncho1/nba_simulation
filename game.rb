@@ -57,9 +57,9 @@ class NbaSimulationGame
     def add_play(result)
         case result
         when "3m", "2m"
-            display.possession_results << "#{result[0]} pt made"
+            display.possession_results << "#{result[0]} pt made  (#{live_score})"
         when "3a", "2a"
-            display.possession_results << "#{result[0]} pt missed"
+            display.possession_results << "#{result[0]} pt missed  (#{live_score})"
         when "sf"
             display.possession_results << "shooting foul"
         when "nsf"
@@ -82,10 +82,10 @@ class NbaSimulationGame
             2.times do
                 ft_result = @offensive_team.get_ft_result
                 if ft_result == "ftm"
-                    display.possession_results << "free throw made" 
+                    display.possession_results << "free throw made  (#{live_score})" 
                     @offensive_team.score += 1
                 else
-                    display.possession_results << "free throw missed" 
+                    display.possession_results << "free throw missed  (#{live_score})" 
                 end
             end
             @defensive_team.team_fouls += 1
