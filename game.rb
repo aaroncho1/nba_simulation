@@ -4,7 +4,7 @@ require_relative 'teams'
 
 class NbaSimulationGame
     attr_reader :display
-    attr_accessor :game_clock, :overtime_clock
+    attr_accessor :game_clock, :overtime_clock, :tip_off_winner
 
     #1 nba quarter has 720 second quarters * 4 = 2880
     def initialize(away_team, home_team)
@@ -14,6 +14,7 @@ class NbaSimulationGame
         @offensive_team = nil
         @defensive_team = nil
         @display = Display.new(0)
+        @tip_off_winner = nil
     end
 
     def second_chance_result
@@ -21,7 +22,7 @@ class NbaSimulationGame
     end
 
     def foul
-        "f"
+        "sf"
     end
 
     def score_team(made_shot)
@@ -96,7 +97,7 @@ class NbaSimulationGame
         @offensive_team = tip_off_index == 0 ? @away_team : @home_team
         @defensive_team = @offensive_team == @away_team ? @home_team : @away_team
         display.possession_results << "#{@offensive_team.name} win tipoff"
-        @offensive_team
+        tip_off_winner = @offensive_team
     end
 
     def switch_team
@@ -107,6 +108,9 @@ class NbaSimulationGame
         @away_team.score == @home_team.score
     end
 
+    def live_score
+        "  (#{@away_team.score} - #{@home_team.score})"
+    end
 
     def go_to_overtime
         display.possession_results << "----------OVERTIME----------"
@@ -115,16 +119,22 @@ class NbaSimulationGame
             play_possession
             switch_team
         end
+        final_score
         go_to_overtime if tie?
     end
+
+    def final_score
+        puts "#{@away_team.name} : #{@away_team.score}"
+        puts "#{@home_team.name} : #{@home_team.score}"
+    end
+
 
     def end_of_regulation
         display.possession_results << "------END OF REGULATION-----"
         if tie?
             go_to_overtime
         else
-            puts "#{@away_team.name} : #{@away_team.score}"
-            puts "#{@home_team.name} : #{@home_team.score}"
+            final_score
         end
     end
 
@@ -135,23 +145,28 @@ class NbaSimulationGame
             play_possession
             switch_team
         end
-        @offensive_team = tip_off_result == @away_team ? @home_team : @away_team
+        @offensive_team = tip_off_winner == @away_team ? @home_team : @away_team
         until second_quarter_over?
             play_possession
             switch_team
         end
-        @offensive_team = tip_off_result == @away_team ? @home_team : @away_team
+        @offensive_team = tip_off_winner == @away_team ? @home_team : @away_team
         until third_quarter_over?
             play_possession
             switch_team
         end
-        @offensive_team = tip_off_result == @away_team ? @away_team : @home_team
+        @offensive_team = tip_off_winner == @away_team ? @away_team : @home_team
         until game_over?
             play_possession
             switch_team
         end
         end_of_regulation
         play_by_play_results
+    end
+
+    def play_by_play_results
+        puts "--------PLAY-BY-PLAY--------"
+        display.possession_results.each {|play| puts play}
     end
 end
 
