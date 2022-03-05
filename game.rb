@@ -45,17 +45,6 @@ class NbaSimulationGame
         end
     end
 
-    def add_play(result)
-        case result
-        when "3m", "2m"
-            display.possession_results << "#{@offensive_team.abbreviation} #{result[0]} pt made #{live_score}"
-        when "nsf"
-            display.possession_results << "non-shooting foul"
-        when "to"
-            display.possession_results << "#{@offensive_team.abbreviation} turnover"
-        end
-    end
-
     def made_shot?(result)
         result == "3m" || result == "2m"
     end
@@ -93,11 +82,12 @@ class NbaSimulationGame
     def bonus?(team)
         team.team_fouls >= 6
     end
-    
+
     def play_possession
         result = @offensive_team.get_result
         if made_shot?(result)
             score_team(result)
+            display.possession_results << "#{@offensive_team.abbreviation} #{result[0]} pt made #{live_score}"
         elsif missed_shot?(result)
             display.possession_results << "#{@offensive_team.abbreviation} #{result[0]} pt missed #{live_score}"
             second_chance_opportunity?
@@ -106,11 +96,12 @@ class NbaSimulationGame
             ft_simulation
             @defensive_team.team_fouls += 1
         elsif result == "nsf"
-            display.posession_results << "non-shooting foul"
-            ft_simulation if bonus(@defensive_team)?
+            display.possession_results << "non-shooting foul"
+            ft_simulation if bonus?(@defensive_team)
             @defensive_team.team_fouls += 1
+        elsif result == "to"
+            display.possession_results << "#{@offensive_team.abbreviation} turnover"
         end
-        add_play(result)
         simulate_game_clock
     end
 
@@ -174,6 +165,11 @@ class NbaSimulationGame
         display.possession_results << "#{@offensive_team.abbreviation} win tipoff"
     end
 
+    def team_fouls_reset
+        @away_team.team_fouls = 0
+        @home_team.team_fouls = 0
+    end
+
     def run
         # debugger
         tip_off_simulation
@@ -182,24 +178,35 @@ class NbaSimulationGame
             play_possession
             switch_team
         end
+        display.possession_results << "#{@away_team.name} : #{@away_team.team_fouls} fouls"
+        display.possession_results << "#{@home_team.name} : #{@home_team.team_fouls} fouls"
+        team_fouls_reset
         display.possession_results << "----END OF FIRST QUARTER----"
         @offensive_team = tip_off_winner == @home_team ? @away_team : @home_team
         until second_quarter_over?
             play_possession
             switch_team
         end
+        display.possession_results << "#{@away_team.name} : #{@away_team.team_fouls} fouls"
+        display.possession_results << "#{@home_team.name} : #{@home_team.team_fouls} fouls"
+        team_fouls_reset
         display.possession_results << "----END OF SECOND QUARTER---"
         @offensive_team = tip_off_winner == @home_team ? @away_team : @home_team
         until third_quarter_over?
             play_possession
             switch_team
         end
+        display.possession_results << "#{@away_team.name} : #{@away_team.team_fouls} fouls"
+        display.possession_results << "#{@home_team.name} : #{@home_team.team_fouls} fouls"
+        team_fouls_reset
         display.possession_results << "----END OF THIRD QUARTER----"
         @offensive_team = tip_off_winner == @home_team ? @home_team : @away_team
         until game_over?
             play_possession
             switch_team
         end
+        display.possession_results << "#{@away_team.name} : #{@away_team.team_fouls} fouls"
+        display.possession_results << "#{@home_team.name} : #{@home_team.team_fouls} fouls"
         end_of_regulation
         play_by_play_results
     end
