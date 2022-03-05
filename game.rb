@@ -123,6 +123,7 @@ class NbaSimulationGame
 
     def switch_team
         @offensive_team = @offensive_team == @away_team ? @home_team : @away_team
+        @defensive_team = @defensive_team == @away_team ? @home_team : @away_team
     end
 
     def tie?
