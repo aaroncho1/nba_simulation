@@ -4,7 +4,7 @@ require_relative 'teams'
 
 class NbaSimulationGame
     attr_reader :display
-    attr_accessor :game_clock, :overtime_clock, :tip_off_winner
+    attr_accessor :game_clock, :overtime_clock
 
     #1 nba quarter has 720 second quarters * 4 = 2880
     def initialize(away_team, home_team)
@@ -14,7 +14,6 @@ class NbaSimulationGame
         @offensive_team = nil
         @defensive_team = nil
         @display = Display.new(0)
-        @tip_off_winner = nil
     end
 
     def shooting_foul
@@ -123,14 +122,6 @@ class NbaSimulationGame
         game_clock <= 0
     end
 
-    def tip_off_result
-        tip_off_index = rand(2)
-        @offensive_team = tip_off_index == 0 ? @away_team : @home_team
-        @defensive_team = @offensive_team == @away_team ? @home_team : @away_team
-        display.possession_results << "#{@offensive_team.abbreviation} win tipoff"
-        tip_off_winner = @offensive_team
-    end
-
     def switch_team
         @offensive_team = @offensive_team == @away_team ? @home_team : @away_team
     end
@@ -168,27 +159,47 @@ class NbaSimulationGame
         end
     end
 
+    def tip_off_simulation
+        tip_off_index = rand(2)
+        @offensive_team = tip_off_index == 0 ? @away_team : @home_team
+        @defensive_team = @offensive_team == @away_team ? @home_team : @away_team
+        display.possession_results << "#{@offensive_team.abbreviation} win tipoff"
+    end
+
     def run
         # debugger
-        tip_off_result
+        tip_off_simulation
+        tip_off_winner = @offensive_team
         until first_quarter_over?
             play_possession
             switch_team
         end
         display.possession_results << "----END OF FIRST QUARTER----"
-        @offensive_team = tip_off_winner == @away_team ? @home_team : @away_team
+        if tip_off_winner == @home_team
+            @offensive_team = @away_team
+        else
+            @offensive_team = @home_team
+        end
         until second_quarter_over?
             play_possession
             switch_team
         end
         display.possession_results << "----END OF SECOND QUARTER---"
-        @offensive_team = tip_off_winner == @away_team ? @home_team : @away_team
+        if tip_off_winner == @home_team
+            @offensive_team = @away_team
+        else
+            @offensive_team = @home_team
+        end
         until third_quarter_over?
             play_possession
             switch_team
         end
         display.possession_results << "----END OF THIRD QUARTER----"
-        @offensive_team = tip_off_winner == @away_team ? @away_team : @home_team
+        if tip_off_winner == @home_team
+            @offensive_team = @home_team
+        else
+            @offensive_team = @away_team
+        end
         until game_over?
             play_possession
             switch_team
