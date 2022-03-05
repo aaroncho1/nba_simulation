@@ -175,31 +175,19 @@ class NbaSimulationGame
             switch_team
         end
         display.possession_results << "----END OF FIRST QUARTER----"
-        if tip_off_winner == @home_team
-            @offensive_team = @away_team
-        else
-            @offensive_team = @home_team
-        end
+        @offensive_team = tip_off_winner == @home_team ? @away_team : @home_team
         until second_quarter_over?
             play_possession
             switch_team
         end
         display.possession_results << "----END OF SECOND QUARTER---"
-        if tip_off_winner == @home_team
-            @offensive_team = @away_team
-        else
-            @offensive_team = @home_team
-        end
+        @offensive_team = tip_off_winner == @home_team ? @away_team : @home_team
         until third_quarter_over?
             play_possession
             switch_team
         end
         display.possession_results << "----END OF THIRD QUARTER----"
-        if tip_off_winner == @home_team
-            @offensive_team = @home_team
-        else
-            @offensive_team = @away_team
-        end
+        @offensive_team = tip_off_winner == @home_team ? @home_team : @away_team
         until game_over?
             play_possession
             switch_team
