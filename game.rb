@@ -16,10 +16,6 @@ class NbaSimulationGame
         @display = Display.new(0)
     end
 
-    def shooting_foul
-        "sf"
-    end
-
     def score_team(made_shot)
         if made_shot == "3m"
             @offensive_team.score += 3
@@ -87,6 +83,13 @@ class NbaSimulationGame
         end
     end
 
+    def ft_simulation
+        2.times do
+            ft_result = @offensive_team.get_ft_result
+            score_ft(ft_result)
+        end
+    end
+
     def play_possession
         result = @offensive_team.get_result
         if made_shot?(result)
@@ -94,12 +97,9 @@ class NbaSimulationGame
         elsif missed_shot?(result)
             display.possession_results << "#{@offensive_team.abbreviation} #{result[0]} pt missed #{live_score}"
             second_chance_opportunity?
-        elsif result == shooting_foul
+        elsif result == "sf"
             display.possession_results << "shooting foul"
-            2.times do
-                ft_result = @offensive_team.get_ft_result
-                score_ft(ft_result)
-            end
+            ft_simulation
             @defensive_team.team_fouls += 1
         end
         add_play(result)
