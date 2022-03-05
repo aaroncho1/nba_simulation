@@ -4,7 +4,7 @@ require_relative 'teams'
 
 class NbaSimulationGame
     attr_reader :display
-    attr_accessor :game_clock, :overtime_clock, :tip_off_winner
+    attr_accessor :game_clock, :overtime_clock, :tip_off_winner, :offensive_team, :defensive_team
 
     #1 nba quarter has 720 second quarters * 4 = 2880
     def initialize(away_team, home_team)
@@ -159,16 +159,19 @@ class NbaSimulationGame
             play_possession
             switch_team
         end
+        display.possession_results << "----END OF FIRST QUARTER----"
         @offensive_team = tip_off_winner == @away_team ? @home_team : @away_team
         until second_quarter_over?
             play_possession
             switch_team
         end
+        display.possession_results << "----END OF SECOND QUARTER---"
         @offensive_team = tip_off_winner == @away_team ? @home_team : @away_team
         until third_quarter_over?
             play_possession
             switch_team
         end
+        display.possession_results << "----END OF THIRD QUARTER----"
         @offensive_team = tip_off_winner == @away_team ? @away_team : @home_team
         until game_over?
             play_possession
@@ -187,7 +190,7 @@ end
 # suns and warriors offensive result frequencies in an array
 #2m/a = 2pt fg made/ missed , 3m/a = 3pt made/ missed sf/nsf = shooting/ non shooting foul on other team, or = offensive rebound, to = turnover
 suns_frequencies = (["2m"] * 32) + (["2a"] * 30) + (["3m"] * 11) + (["3a"] * 20) + (["sf"] * 7) + (["nsf"] * 2) + (["or"] * 10) + (["to"] * 9)
-warriors_frequencies = (["2m"] * 26) + (["2a"] * 21) + (["3m"] * 14) + (["3a"] * 25) + (["f"] * 11) + (["nsf"] * 2) + (["or"] * 10) + (["to"] * 13)
+warriors_frequencies = (["2m"] * 26) + (["2a"] * 21) + (["3m"] * 14) + (["3a"] * 25) + (["sf"] * 11) + (["nsf"] * 2) + (["or"] * 10) + (["to"] * 13)
 suns_ft_frequencies = (["ftm"] * 16) + (["fta"] * 4)
 warriors_ft_frequencies = (["ftm"] * 16) + (["fta"] * 6)
 NbaSimulationGame.new(Team.new("Phoenix Suns", "PHX", 0, suns_frequencies, suns_ft_frequencies), Team.new("Golden State Warriors", "GSW", 0, warriors_frequencies, warriors_ft_frequencies)).run
