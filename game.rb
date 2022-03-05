@@ -1,6 +1,6 @@
 require_relative 'display'
 require_relative 'teams'
-# require 'byebug'
+require 'byebug'
 
 class NbaSimulationGame
     attr_reader :display
@@ -79,8 +79,8 @@ class NbaSimulationGame
             2.times do
                 ft_result = @offensive_team.get_ft_result
                 if ft_result == "ftm"
-                    display.possession_results << "#{@offensive_team.abbreviation} free throw made #{live_score}" 
                     @offensive_team.score += 1
+                    display.possession_results << "#{@offensive_team.abbreviation} free throw made #{live_score}" 
                 else
                     display.possession_results << "#{@offensive_team.abbreviation} free throw missed #{live_score}" 
                 end
@@ -154,7 +154,7 @@ class NbaSimulationGame
     end
 
     def run
-        # debugger
+        debugger
         tip_off_result
         until first_quarter_over?
             play_possession
