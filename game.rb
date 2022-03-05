@@ -1,6 +1,6 @@
 require_relative 'display'
 require_relative 'teams'
-require 'byebug'
+# require 'byebug'
 
 class NbaSimulationGame
     attr_reader :display
@@ -75,7 +75,7 @@ class NbaSimulationGame
             display.possession_results << "#{@offensive_team.abbreviation} offensive rebound"
             play_possession
         elsif result == shooting_foul
-            display.possession_results << "#{@offensive_team.abbreviation} shooting foul"
+            display.possession_results << "#{@defensive_team.abbreviation} shooting foul"
             2.times do
                 ft_result = @offensive_team.get_ft_result
                 if ft_result == "ftm"
@@ -143,7 +143,6 @@ class NbaSimulationGame
         puts "#{@home_team.name} : #{@home_team.score}"
     end
 
-
     def end_of_regulation
         display.possession_results << "------END OF REGULATION-----"
         if tie?
@@ -154,7 +153,7 @@ class NbaSimulationGame
     end
 
     def run
-        debugger
+        # debugger
         tip_off_result
         until first_quarter_over?
             play_possession
