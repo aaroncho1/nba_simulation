@@ -97,8 +97,8 @@ class NbaSimulationGame
             @defensive_team.team_fouls += 1
         elsif result == "nsf"
             display.possession_results << "non-shooting foul"
-            ft_simulation if bonus?(@defensive_team)
             @defensive_team.team_fouls += 1
+            ft_simulation if bonus?(@defensive_team)
         elsif result == "to"
             display.possession_results << "#{@offensive_team.abbreviation} turnover"
         end
