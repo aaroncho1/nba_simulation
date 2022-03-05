@@ -17,10 +17,6 @@ class NbaSimulationGame
         @tip_off_winner = nil
     end
 
-    def second_chance_result
-        "or"
-    end
-
     def shooting_foul
         "sf"
     end
@@ -58,8 +54,6 @@ class NbaSimulationGame
         case result
         when "3m", "2m"
             display.possession_results << "#{@offensive_team.abbreviation} #{result[0]} pt made #{live_score}"
-        when "3a", "2a"
-            display.possession_results << "#{@offensive_team.abbreviation} #{result[0]} pt missed #{live_score}"
         when "nsf"
             display.possession_results << "non-shooting foul"
         when "to"
@@ -70,6 +64,20 @@ class NbaSimulationGame
     def made_shot?(result)
         result == "3m" || result == "2m"
     end
+
+    def missed_shot?(result)
+        result == "3a" || result == "2a"
+    end
+
+    def second_chance_opportunity?
+        ind = rand(4)
+        if ind == 0
+            display.possession_results << "#{@offensive_team.abbreviation} offensive rebound" 
+            play_possession
+        end
+        false 
+    end
+
 
     def score_ft(result)
         if result == "ftm"
@@ -84,9 +92,9 @@ class NbaSimulationGame
         result = @offensive_team.get_result
         if made_shot?(result)
             score_team(result)
-        elsif result == second_chance_result
-            display.possession_results << "#{@offensive_team.abbreviation} offensive rebound"
-            play_possession
+        elsif missed_shot?(result)
+            display.possession_results << "#{@offensive_team.abbreviation} #{result[0]} pt missed #{live_score}"
+            second_chance_opportunity?
         elsif result == shooting_foul
             display.possession_results << "shooting foul"
             2.times do
@@ -119,7 +127,7 @@ class NbaSimulationGame
         tip_off_index = rand(2)
         @offensive_team = tip_off_index == 0 ? @away_team : @home_team
         @defensive_team = @offensive_team == @away_team ? @home_team : @away_team
-        display.possession_results << "#{@offensive_team.name} win tipoff"
+        display.possession_results << "#{@offensive_team.abbreviation} win tipoff"
         tip_off_winner = @offensive_team
     end
 
@@ -197,8 +205,8 @@ end
 
 # suns and warriors offensive result frequencies in an array
 #2m/a = 2pt fg made/ missed , 3m/a = 3pt made/ missed sf/nsf = shooting/ non shooting foul on other team, or = offensive rebound, to = turnover
-suns_frequencies = (["2m"] * 32) + (["2a"] * 30) + (["3m"] * 11) + (["3a"] * 20) + (["sf"] * 7) + (["nsf"] * 2) + (["or"] * 10) + (["to"] * 9)
-warriors_frequencies = (["2m"] * 26) + (["2a"] * 21) + (["3m"] * 14) + (["3a"] * 25) + (["sf"] * 11) + (["nsf"] * 2) + (["or"] * 10) + (["to"] * 13)
+suns_frequencies = (["2m"] * 32) + (["2a"] * 30) + (["3m"] * 11) + (["3a"] * 20) + (["sf"] * 7) + (["nsf"] * 2) + (["to"] * 9)
+warriors_frequencies = (["2m"] * 26) + (["2a"] * 21) + (["3m"] * 14) + (["3a"] * 25) + (["sf"] * 11) + (["nsf"] * 2) + (["to"] * 13)
 suns_ft_frequencies = (["ftm"] * 16) + (["fta"] * 4)
 warriors_ft_frequencies = (["ftm"] * 16) + (["fta"] * 6)
 NbaSimulationGame.new(Team.new("Phoenix Suns", "PHX", 0, suns_frequencies, suns_ft_frequencies), Team.new("Golden State Warriors", "GSW", 0, warriors_frequencies, warriors_ft_frequencies)).run
