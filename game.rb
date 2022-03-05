@@ -4,7 +4,7 @@ require_relative 'teams'
 
 class NbaSimulationGame
     attr_reader :display
-    attr_accessor :game_clock, :overtime_clock, :tip_off_winner, :offensive_team, :defensive_team
+    attr_accessor :game_clock, :overtime_clock, :tip_off_winner
 
     #1 nba quarter has 720 second quarters * 4 = 2880
     def initialize(away_team, home_team)
@@ -75,7 +75,7 @@ class NbaSimulationGame
             display.possession_results << "#{@offensive_team.abbreviation} offensive rebound"
             play_possession
         elsif result == shooting_foul
-            display.possession_results << "#{@defensive_team.abbreviation} shooting foul"
+            display.possession_results << "shooting foul"
             2.times do
                 ft_result = @offensive_team.get_ft_result
                 if ft_result == "ftm"
