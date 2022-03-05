@@ -1,6 +1,6 @@
 require_relative 'display'
 require_relative 'teams'
-# require 'byebug'
+require 'byebug'
 
 class NbaSimulationGame
     attr_reader :display
@@ -171,15 +171,13 @@ class NbaSimulationGame
     end
 
     def run
-        # debugger
+        debugger
         tip_off_simulation
         tip_off_winner = @offensive_team
         until first_quarter_over?
             play_possession
             switch_team
         end
-        display.possession_results << "#{@away_team.name} : #{@away_team.team_fouls} fouls"
-        display.possession_results << "#{@home_team.name} : #{@home_team.team_fouls} fouls"
         team_fouls_reset
         display.possession_results << "----END OF FIRST QUARTER----"
         @offensive_team = tip_off_winner == @home_team ? @away_team : @home_team
@@ -187,8 +185,6 @@ class NbaSimulationGame
             play_possession
             switch_team
         end
-        display.possession_results << "#{@away_team.name} : #{@away_team.team_fouls} fouls"
-        display.possession_results << "#{@home_team.name} : #{@home_team.team_fouls} fouls"
         team_fouls_reset
         display.possession_results << "----END OF SECOND QUARTER---"
         @offensive_team = tip_off_winner == @home_team ? @away_team : @home_team
@@ -196,8 +192,6 @@ class NbaSimulationGame
             play_possession
             switch_team
         end
-        display.possession_results << "#{@away_team.name} : #{@away_team.team_fouls} fouls"
-        display.possession_results << "#{@home_team.name} : #{@home_team.team_fouls} fouls"
         team_fouls_reset
         display.possession_results << "----END OF THIRD QUARTER----"
         @offensive_team = tip_off_winner == @home_team ? @home_team : @away_team
@@ -205,8 +199,6 @@ class NbaSimulationGame
             play_possession
             switch_team
         end
-        display.possession_results << "#{@away_team.name} : #{@away_team.team_fouls} fouls"
-        display.possession_results << "#{@home_team.name} : #{@home_team.team_fouls} fouls"
         end_of_regulation
         play_by_play_results
     end
