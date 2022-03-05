@@ -90,6 +90,10 @@ class NbaSimulationGame
         end
     end
 
+    def bonus?(team)
+        team.team_fouls >= 6
+    end
+    
     def play_possession
         result = @offensive_team.get_result
         if made_shot?(result)
@@ -100,6 +104,10 @@ class NbaSimulationGame
         elsif result == "sf"
             display.possession_results << "shooting foul"
             ft_simulation
+            @defensive_team.team_fouls += 1
+        elsif result == "nsf"
+            display.posession_results << "non-shooting foul"
+            ft_simulation if bonus(@defensive_team)?
             @defensive_team.team_fouls += 1
         end
         add_play(result)
