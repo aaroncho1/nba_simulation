@@ -84,6 +84,7 @@ class NbaSimulationGame
     end
 
     def play_possession
+        simulate_game_clock
         result = @offensive_team.get_result
         if made_shot?(result)
             score_team(result)
@@ -102,7 +103,6 @@ class NbaSimulationGame
         elsif result == "to"
             display.possession_results << "#{@offensive_team.abbreviation} turnover"
         end
-        simulate_game_clock
     end
 
     def first_quarter_over?
