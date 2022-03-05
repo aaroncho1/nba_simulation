@@ -61,15 +61,28 @@ class NbaSimulationGame
         when "3a", "2a"
             display.possession_results << "#{@offensive_team.abbreviation} #{result[0]} pt missed #{live_score}"
         when "nsf"
-            display.possession_results << "#{@offensive_team.abbreviation} non-shooting foul"
+            display.possession_results << "non-shooting foul"
         when "to"
             display.possession_results << "#{@offensive_team.abbreviation} turnover"
         end
     end
 
+    def made_shot?(result)
+        result == "3m" || result == "2m"
+    end
+
+    def score_ft(result)
+        if result == "ftm"
+            @offensive_team.score += 1
+            display.possession_results << "#{@offensive_team.abbreviation} free throw made #{live_score}" 
+        else
+            display.possession_results << "#{@offensive_team.abbreviation} free throw missed #{live_score}" 
+        end
+    end
+
     def play_possession
         result = @offensive_team.get_result
-        if result == "3m" || result == "2m"
+        if made_shot?(result)
             score_team(result)
         elsif result == second_chance_result
             display.possession_results << "#{@offensive_team.abbreviation} offensive rebound"
@@ -78,12 +91,7 @@ class NbaSimulationGame
             display.possession_results << "shooting foul"
             2.times do
                 ft_result = @offensive_team.get_ft_result
-                if ft_result == "ftm"
-                    @offensive_team.score += 1
-                    display.possession_results << "#{@offensive_team.abbreviation} free throw made #{live_score}" 
-                else
-                    display.possession_results << "#{@offensive_team.abbreviation} free throw missed #{live_score}" 
-                end
+                score_ft(ft_result)
             end
             @defensive_team.team_fouls += 1
         end
