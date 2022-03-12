@@ -100,8 +100,8 @@ class NbaSimulationGame
         result = @offensive_team.get_result
         if made_shot?(result)
             score_team(result)
-            choose_player(result, off_team)
-            display.possession_results << "#{@offensive_team.abbreviation} #{result[0]} pt made #{live_score}"
+            shooter = choose_player(result, off_team)
+            display.possession_results << "#{@offensive_team.abbreviation} #{shooter.name} #{result[0]} pt made #{live_score}"
         elsif missed_shot?(result)
             display.possession_results << "#{@offensive_team.abbreviation} #{result[0]} pt missed #{live_score}"
             second_chance_opportunity?
