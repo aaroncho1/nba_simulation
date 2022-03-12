@@ -15,7 +15,6 @@ class NbaSimulationGame
         @offensive_team = nil
         @defensive_team = nil
         @display = Display.new(0)
-        @players = Player.new
     end
 
     def score_team(made_shot)
@@ -180,6 +179,7 @@ class NbaSimulationGame
 
     def run
         # debugger
+        add_players
         tip_off_simulation
         tip_off_winner = @offensive_team
         until first_quarter_over?
@@ -218,6 +218,25 @@ class NbaSimulationGame
     def play_by_play_results
         puts "--------PLAY-BY-PLAY--------"
         display.possession_results.each {|play| puts play}
+    end
+
+    def add_players
+        @home_team.add_player(Player.new("S. Curry", "PG", 37, (["2a"] * 8) + (["3a"] * 12) + (["sf"] * 3) + (["dr"] * 5) + (["or"] * 1)))
+        @home_team.add_player(Player.new("K. Thompson", "SG", 35, (["2a"] * 8) + (["3a"] * 8) + (["sf"] * 1) + (["dr"] * 4) + (["or"] * 1)))
+        @home_team.add_player(Player.new("A. Wiggins", "SF", 35, (["2a"] * 9) + (["3a"] * 5) + (["sf"] * 2) + (["dr"] * 4) + (["or"] * 1)))
+        @home_team.add_player(Player.new("D. Green", "PF", 37, (["2a"] * 5) + (["3a"] * 2) + (["sf"] * 1) + (["dr"] * 7) + (["or"] * 1)))
+        @home_team.add_player(Player.new("J. Wiseman", "C", 26, (["2a"] * 9) + (["3a"] * 1) + (["sf"] * 1) + (["dr"] * 6) + (["or"] * 1)))
+        @home_team.add_player(Player.new("J. Poole", "PG", 34, (["2a"] * 6) + (["3a"] * 7) + (["sf"] * 2) + (["dr"] * 3) + (["or"] * 1)))
+        @home_team.add_player(Player.new("J. Kuminga", "PF", 16, (["2a"] * 4) + (["3a"] * 2) + (["sf"] * 1) + (["dr"] * 3) + (["or"] * 1)))
+        @home_team.add_player(Player.new("K. Looney", "C", 20, (["2a"] * 5) + (["3a"] * 0) + (["sf"] * 1) + (["dr"] * 8) + (["or"] * 2)))
+        @away_team.add_player(Player.new("C. Paul", "PG", 37, (["2a"] * 9) + (["3a"] * 3) + (["sf"] * 2) + (["dr"] * 5) + (["or"] * 1)))
+        @away_team.add_player(Player.new("D. Booker", "SG", 38, (["2a"] * 14) + (["3a"] * 7) + (["sf"] * 3) + (["dr"] * 5) + (["or"] * 1)))
+        @away_team.add_player(Player.new("M. Bridges", "SF", 38, (["2a"] * 6) + (["3a"] * 4) + (["sf"] * 1) + (["dr"] * 4) + (["or"] * 1)))
+        @away_team.add_player(Player.new("C. Johnson", "PF", 30, (["2a"] * 3) + (["3a"] * 6) + (["sf"] * 1) + (["dr"] * 4) + (["or"] * 1)))
+        @away_team.add_player(Player.new("D. Ayton", "C", 32, (["2a"] * 12) + (["3a"] * 0) + (["sf"] * 1) + (["dr"] * 10) + (["or"] * 3)))
+        @away_team.add_player(Player.new("J. Crowder", "SF", 25, (["2a"] * 3) + (["3a"] * 5) + (["sf"] * 1) + (["dr"] * 5) + (["or"] * 1)))
+        @away_team.add_player(Player.new("C. Payne", "PG", 20, (["2a"] * 6) + (["3a"] * 4) + (["sf"] * 1) + (["dr"] * 3) + (["or"] * 1)))
+        @away_team.add_player(Player.new("F. Kaminsky", "PF", 20, (["2a"] * 5) + (["3a"] * 2) + (["sf"] * 1) + (["dr"] * 4) + (["or"] * 1)))
     end
 end
 
