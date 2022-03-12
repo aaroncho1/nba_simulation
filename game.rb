@@ -84,11 +84,23 @@ class NbaSimulationGame
         team.team_fouls >= 6
     end
 
+    def choose_player(result, team)
+        if result == "3m"
+            team.select_3pt_shooter
+        else
+            team.select_2pt_shooter
+        end
+    end
+
+
     def play_possession
         simulate_game_clock
+        off_team = @offensive_team
+        def_team = @defensive_team
         result = @offensive_team.get_result
         if made_shot?(result)
             score_team(result)
+            choose_player(result, off_team)
             display.possession_results << "#{@offensive_team.abbreviation} #{result[0]} pt made #{live_score}"
         elsif missed_shot?(result)
             display.possession_results << "#{@offensive_team.abbreviation} #{result[0]} pt missed #{live_score}"

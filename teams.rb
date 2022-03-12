@@ -26,4 +26,17 @@ class Team
     def add_player(player)
         @players << player
     end
+
+    def select_3pt_shooter
+        3pt_frequencies = []
+        @players.each do |player|
+            3pt_frequencies << player * player.frequencies.select{|stat| stat.include?("3")}.count
+        end
+        rand_ind = rand(3pt_frequencies.length)
+        shooter = 3pt_frequencies.shuffle[rand_ind]
+        shooter
+    end
+
+    def select_2pt_shooter
+    end
 end
