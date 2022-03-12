@@ -38,5 +38,12 @@ class Team
     end
 
     def select_2pt_shooter
+        2pt_frequencies = []
+        @players.each do |player|
+            2pt_frequencies << player * player.frequencies.select{|stat| stat.include?("2")}.count
+        end
+        rand_ind = rand(2pt_frequencies.length)
+        shooter = 2pt_frequencies.shuffle[rand_ind]
+        shooter
     end
 end
