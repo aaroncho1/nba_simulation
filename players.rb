@@ -4,7 +4,8 @@ class Player
     attr_accessor :points, :rebounds, :posessions
 
     def initialize(name, position, minutes, frequencies)
-        @name, @position, @minutes, @frequencies   
+        @name, @position = name, position  
+        @minutes, @frequencies = minutes, frequencies 
         @points = 0
         @rebounds = 0
         @posessions = []     
