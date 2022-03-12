@@ -1,5 +1,6 @@
 require_relative 'display'
 require_relative 'teams'
+require_relative 'players'
 # require 'byebug'
 
 class NbaSimulationGame
