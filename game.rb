@@ -4,7 +4,7 @@ require_relative 'players'
 # require 'byebug'
 
 class NbaSimulationGame
-    attr_reader :display
+    attr_reader :display, :player
     attr_accessor :game_clock, :overtime_clock
 
     #1 nba quarter has 720 second quarters * 4 = 2880
@@ -15,6 +15,7 @@ class NbaSimulationGame
         @offensive_team = nil
         @defensive_team = nil
         @display = Display.new(0)
+        @players = Player.new
     end
 
     def score_team(made_shot)
