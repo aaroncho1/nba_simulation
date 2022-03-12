@@ -30,7 +30,7 @@ class Team
     def select_three_pt_shooter
         three_pt_frequencies = []
         @players.each do |player|
-            three_pt_frequencies << player * player.frequencies.select{|stat| stat.include?("3")}.count
+            three_pt_frequencies << [player] * player.frequencies.select{|stat| stat.include?("3")}.count
         end
         rand_ind = rand(three_pt_frequencies.length)
         shooter = three_pt_frequencies.shuffle[rand_ind]
@@ -40,7 +40,7 @@ class Team
     def select_two_pt_shooter
         two_pt_frequencies = []
         @players.each do |player|
-            two_pt_frequencies << player * player.frequencies.select{|stat| stat.include?("2")}.count
+            two_pt_frequencies << [player] * player.frequencies.select{|stat| stat.include?("2")}.count
         end
         rand_ind = rand(two_pt_frequencies.length)
         shooter = two_pt_frequencies.shuffle[rand_ind]
