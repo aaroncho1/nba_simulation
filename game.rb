@@ -4,12 +4,13 @@ require_relative 'players'
 # require 'byebug'
 
 class NbaSimulationGame
-    attr_reader :display, :player
+    attr_reader :display, :player, :away_team_players, :home_team_players
     attr_accessor :game_clock, :overtime_clock
 
     #1 nba quarter has 720 second quarters * 4 = 2880
-    def initialize(away_team, home_team)
+    def initialize(away_team, away_team_players, home_team, home_team_players)
         @away_team, @home_team = away_team, home_team
+        @away_team_players, @home_team_players
         @game_clock = 2880
         @overtime_clock = 300
         @offensive_team = nil
@@ -191,7 +192,7 @@ class NbaSimulationGame
 
     def run
         # debugger
-        add_players
+        add_players(away_team_players, home_team_players)
         tip_off_simulation
         tip_off_winner = @offensive_team
         until first_quarter_over?
@@ -232,30 +233,40 @@ class NbaSimulationGame
         display.possession_results.each {|play| puts play}
     end
 
-    def add_players
-        @home_team.add_player(Player.new("S. Curry", "PG", 37, (["2a"] * 8) + (["3a"] * 12) + (["sf"] * 3) + (["dr"] * 5) + (["or"] * 1)))
-        @home_team.add_player(Player.new("K. Thompson", "SG", 35, (["2a"] * 8) + (["3a"] * 8) + (["sf"] * 1) + (["dr"] * 4) + (["or"] * 1)))
-        @home_team.add_player(Player.new("A. Wiggins", "SF", 35, (["2a"] * 9) + (["3a"] * 5) + (["sf"] * 2) + (["dr"] * 4) + (["or"] * 1)))
-        @home_team.add_player(Player.new("D. Green", "PF", 37, (["2a"] * 5) + (["3a"] * 2) + (["sf"] * 1) + (["dr"] * 7) + (["or"] * 1)))
-        @home_team.add_player(Player.new("J. Wiseman", "C", 26, (["2a"] * 9) + (["3a"] * 1) + (["sf"] * 1) + (["dr"] * 6) + (["or"] * 1)))
-        @home_team.add_player(Player.new("J. Poole", "PG", 34, (["2a"] * 6) + (["3a"] * 7) + (["sf"] * 2) + (["dr"] * 3) + (["or"] * 1)))
-        @home_team.add_player(Player.new("J. Kuminga", "PF", 16, (["2a"] * 4) + (["3a"] * 2) + (["sf"] * 1) + (["dr"] * 3) + (["or"] * 1)))
-        @home_team.add_player(Player.new("K. Looney", "C", 20, (["2a"] * 5) + (["3a"] * 0) + (["sf"] * 1) + (["dr"] * 8) + (["or"] * 2)))
-        @away_team.add_player(Player.new("C. Paul", "PG", 37, (["2a"] * 9) + (["3a"] * 3) + (["sf"] * 2) + (["dr"] * 5) + (["or"] * 1)))
-        @away_team.add_player(Player.new("D. Booker", "SG", 38, (["2a"] * 14) + (["3a"] * 7) + (["sf"] * 3) + (["dr"] * 5) + (["or"] * 1)))
-        @away_team.add_player(Player.new("M. Bridges", "SF", 38, (["2a"] * 6) + (["3a"] * 4) + (["sf"] * 1) + (["dr"] * 4) + (["or"] * 1)))
-        @away_team.add_player(Player.new("C. Johnson", "PF", 30, (["2a"] * 3) + (["3a"] * 6) + (["sf"] * 1) + (["dr"] * 4) + (["or"] * 1)))
-        @away_team.add_player(Player.new("D. Ayton", "C", 32, (["2a"] * 12) + (["3a"] * 0) + (["sf"] * 1) + (["dr"] * 10) + (["or"] * 3)))
-        @away_team.add_player(Player.new("J. Crowder", "SF", 25, (["2a"] * 3) + (["3a"] * 5) + (["sf"] * 1) + (["dr"] * 5) + (["or"] * 1)))
-        @away_team.add_player(Player.new("C. Payne", "PG", 20, (["2a"] * 6) + (["3a"] * 4) + (["sf"] * 1) + (["dr"] * 3) + (["or"] * 1)))
-        @away_team.add_player(Player.new("F. Kaminsky", "PF", 20, (["2a"] * 5) + (["3a"] * 2) + (["sf"] * 1) + (["dr"] * 4) + (["or"] * 1)))
+    def add_players(away, home)
+        away.each do |player|
+            @away_team.add_player(player)
+        end
+        home.each do |player|
+            @home_team.add_player(player)
+        end
     end
 end
 
 # suns and warriors offensive result frequencies in an array
 #2m/a = 2pt fg made/ missed , 3m/a = 3pt made/ missed sf/nsf = shooting/ non shooting foul on other team, or = offensive rebound, to = turnover
 suns_frequencies = (["2m"] * 32) + (["2a"] * 30) + (["3m"] * 11) + (["3a"] * 20) + (["sf"] * 7) + (["nsf"] * 2) + (["to"] * 9)
+suns_players = [
+        Player.new("C. Paul", "PG", 37, (["2a"] * 9) + (["3a"] * 3) + (["sf"] * 2) + (["dr"] * 5) + (["or"] * 1))),
+        Player.new("D. Booker", "SG", 38, (["2a"] * 14) + (["3a"] * 7) + (["sf"] * 3) + (["dr"] * 5) + (["or"] * 1))),
+        Player.new("M. Bridges", "SF", 38, (["2a"] * 6) + (["3a"] * 4) + (["sf"] * 1) + (["dr"] * 4) + (["or"] * 1))),
+        Player.new("C. Johnson", "PF", 30, (["2a"] * 3) + (["3a"] * 6) + (["sf"] * 1) + (["dr"] * 4) + (["or"] * 1))),
+        Player.new("D. Ayton", "C", 32, (["2a"] * 12) + (["3a"] * 0) + (["sf"] * 1) + (["dr"] * 10) + (["or"] * 3))),
+        Player.new("J. Crowder", "SF", 25, (["2a"] * 3) + (["3a"] * 5) + (["sf"] * 1) + (["dr"] * 5) + (["or"] * 1))),
+        Player.new("C. Payne", "PG", 20, (["2a"] * 6) + (["3a"] * 4) + (["sf"] * 1) + (["dr"] * 3) + (["or"] * 1))),
+        Player.new("F. Kaminsky", "PF", 20, (["2a"] * 5) + (["3a"] * 2) + (["sf"] * 1) + (["dr"] * 4) + (["or"] * 1)))
+]
 warriors_frequencies = (["2m"] * 26) + (["2a"] * 21) + (["3m"] * 14) + (["3a"] * 25) + (["sf"] * 11) + (["nsf"] * 2) + (["to"] * 13)
+warriors_players = [
+        Player.new("S. Curry", "PG", 37, (["2a"] * 8) + (["3a"] * 12) + (["sf"] * 3) + (["dr"] * 5) + (["or"] * 1)))
+        Player.new("K. Thompson", "SG", 35, (["2a"] * 8) + (["3a"] * 8) + (["sf"] * 1) + (["dr"] * 4) + (["or"] * 1)))
+        Player.new("A. Wiggins", "SF", 35, (["2a"] * 9) + (["3a"] * 5) + (["sf"] * 2) + (["dr"] * 4) + (["or"] * 1)))
+        Player.new("D. Green", "PF", 37, (["2a"] * 5) + (["3a"] * 2) + (["sf"] * 1) + (["dr"] * 7) + (["or"] * 1)))
+        Player.new("J. Wiseman", "C", 26, (["2a"] * 9) + (["3a"] * 1) + (["sf"] * 1) + (["dr"] * 6) + (["or"] * 1)))
+        Player.new("J. Poole", "PG", 34, (["2a"] * 6) + (["3a"] * 7) + (["sf"] * 2) + (["dr"] * 3) + (["or"] * 1)))
+        Player.new("J. Kuminga", "PF", 16, (["2a"] * 4) + (["3a"] * 2) + (["sf"] * 1) + (["dr"] * 3) + (["or"] * 1)))
+        Player.new("K. Looney", "C", 20, (["2a"] * 5) + (["3a"] * 0) + (["sf"] * 1) + (["dr"] * 8) + (["or"] * 2)))
+]
 suns_ft_frequencies = (["ftm"] * 16) + (["fta"] * 4)
 warriors_ft_frequencies = (["ftm"] * 16) + (["fta"] * 6)
-NbaSimulationGame.new(Team.new("Phoenix Suns", "PHX", 0, suns_frequencies, suns_ft_frequencies), Team.new("Golden State Warriors", "GSW", 0, warriors_frequencies, warriors_ft_frequencies)).run
+NbaSimulationGame.new(Team.new("Phoenix Suns", "PHX", 0, suns_frequencies, suns_ft_frequencies), suns_players, Team.new("Golden State Warriors", "GSW", 0, warriors_frequencies, warriors_ft_frequencies), warriors_players).run
