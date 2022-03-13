@@ -1,7 +1,7 @@
 require_relative 'display'
 require_relative 'teams'
 require_relative 'players'
-require 'byebug'
+# require 'byebug'
 
 class NbaSimulationGame
     attr_reader :display, :player, :away_team_players, :home_team_players
@@ -66,19 +66,20 @@ class NbaSimulationGame
     end
 
 
-    def score_ft(result)
+    def score_ft(result, shooter))
         if result == "ftm"
             @offensive_team.score += 1
-            display.possession_results << "#{@offensive_team.abbreviation} free throw made #{live_score}" 
+            display.possession_results << "#{@offensive_team.abbreviation} #{shooter.name} free throw made #{live_score}" 
         else
-            display.possession_results << "#{@offensive_team.abbreviation} free throw missed #{live_score}" 
+            display.possession_results << "#{@offensive_team.abbreviation} #{shooter.name} free throw missed #{live_score}" 
         end
     end
 
     def ft_simulation
         2.times do
             ft_result = @offensive_team.get_ft_result
-            score_ft(ft_result)
+            ft_shooter = choose_player(ft_result, @offensive_team)
+            score_ft(ft_result, ft_shooter)
         end
     end
 
@@ -89,8 +90,10 @@ class NbaSimulationGame
     def choose_player(result, team)
         if result.include?("3")
             team.select_three_pt_shooter
-        else
+        elsif result.include?("2")
             team.select_two_pt_shooter
+        elsif result.include?("t")
+            team.select_ft_shooter
         end
     end
 
@@ -191,7 +194,7 @@ class NbaSimulationGame
     end
 
     def run
-        debugger
+        # debugger
         tip_off_simulation
         tip_off_winner = @offensive_team
         until first_quarter_over?

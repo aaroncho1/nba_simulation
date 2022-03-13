@@ -48,4 +48,15 @@ class Team
         shooter = flattened_frequencies.shuffle[rand_ind]
         shooter
     end
+
+    def select_ft_shooter
+        ft_freqs = []
+        @players.each do |player|
+            ft_freqs << [player] * player.frequencies.select{|stat| stat.include?("sf")}.count
+        end
+        flattened_frequencies = ft_freqs.flatten
+        rand_ind = rand(flattened_frequencies.length)
+        shooter = flattened_frequencies.shuffle[rand_ind]
+        shooter
+    end
 end
