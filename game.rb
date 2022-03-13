@@ -97,12 +97,10 @@ class NbaSimulationGame
 
     def play_possession
         simulate_game_clock
-        off_team = @offensive_team
-        def_team = @defensive_team
         result = @offensive_team.get_result
         if made_shot?(result)
             score_team(result)
-            shooter = choose_player(result, off_team)
+            shooter = choose_player(result, @offensive_team)
             display.possession_results << "#{@offensive_team.abbreviation} #{shooter.name} #{result[0]} pt made #{live_score}"
         elsif missed_shot?(result)
             display.possession_results << "#{@offensive_team.abbreviation} #{result[0]} pt missed #{live_score}"
