@@ -66,7 +66,7 @@ class NbaSimulationGame
     end
 
 
-    def score_ft(result, shooter))
+    def score_ft(result, shooter)
         if result == "ftm"
             @offensive_team.score += 1
             display.possession_results << "#{@offensive_team.abbreviation} #{shooter.name} free throw made #{live_score}" 
@@ -76,9 +76,9 @@ class NbaSimulationGame
     end
 
     def ft_simulation
+        ft_shooter = choose_player("ft", @offensive_team)
         2.times do
             ft_result = @offensive_team.get_ft_result
-            ft_shooter = choose_player(ft_result, @offensive_team)
             score_ft(ft_result, ft_shooter)
         end
     end
