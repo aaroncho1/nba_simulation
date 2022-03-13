@@ -87,7 +87,7 @@ class NbaSimulationGame
     end
 
     def choose_player(result, team)
-        if result == "3m"
+        if result.include?("3")
             team.select_three_pt_shooter
         else
             team.select_two_pt_shooter
@@ -100,10 +100,11 @@ class NbaSimulationGame
         result = @offensive_team.get_result
         if made_shot?(result)
             score_team(result)
-            shooter = choose_player(result, @offensive_team)
-            display.possession_results << "#{@offensive_team.abbreviation} #{shooter.name} #{result[0]} pt made #{live_score}"
+            made_shooter = choose_player(result, @offensive_team)
+            display.possession_results << "#{@offensive_team.abbreviation} #{made_shooter.name} #{result[0]} pt made #{live_score}"
         elsif missed_shot?(result)
-            display.possession_results << "#{@offensive_team.abbreviation} #{result[0]} pt missed #{live_score}"
+            missed_shooter = choose_player(result, @offensive_team)
+            display.possession_results << "#{@offensive_team.abbreviation} #{missed_shooter.name} #{result[0]} pt missed #{live_score}"
             second_chance_opportunity?
         elsif result == "sf"
             display.possession_results << "shooting foul"
