@@ -1,8 +1,7 @@
 class Display
-    attr_accessor :possession_results, :play
+    attr_accessor :possession_results
     def initialize(play)
         @possession_results = []
-        @play = play
     end
 
     def play_by_play

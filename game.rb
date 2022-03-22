@@ -4,6 +4,10 @@ require_relative 'players'
 # require 'byebug'
 
 class NbaSimulationGame
+
+    LINE_WIDTH = 95
+    PLAYER_COL_WIDTH = 25
+    STAT_COL_WIDTH = 10
     attr_reader :display, :player, :away_team_players, :home_team_players
     attr_accessor :game_clock, :overtime_clock
 
@@ -286,11 +290,35 @@ class NbaSimulationGame
         team_foul_count
         end_of_regulation
         play_by_play_results
+        display_box_score
     end
 
     def play_by_play_results
         puts "--------PLAY-BY-PLAY--------"
         display.possession_results.each {|play| puts play}
+    end
+
+    def display_box_score
+        puts "--------BOX SCORE-----------"
+        puts "#{@away_team.name.upcase}"
+        puts "#{'PLAYERS'.ljust(PLAYER_COL_WIDTH)} | #{'MIN'.ljust(STAT_COL_WIDTH)} | #{'FG'.ljust(STAT_COL_WIDTH)} | 
+            #{'3PT'.ljust(STAT_COL_WIDTH)} | #{'FT'.ljust(STAT_COL_WIDTH)} | #{'REB'.ljust(STAT_COL_WIDTH)} | 
+            #{'AST'.ljust(STAT_COL_WIDTH)} | #{'PTS'.ljust(STAT_COL_WIDTH)}"
+        @away_team.players.each do |player|
+            puts "#{player.name.ljust(PLAYER_COL_WIDTH)} | #{player.minutes.ljust(STAT_COL_WIDTH)} | #{player.fgm}-#{player.fga.ljust(STAT_COL_WIDTH)} | 
+            #{player.trpm}-#{player.trpa.ljust(STAT_COL_WIDTH)} | #{player.ftm}-#{player.fta.ljust(STAT_COL_WIDTH)} | #{player.rebounds.ljust(STAT_COL_WIDTH)} | 
+            #{player.assists.ljust(STAT_COL_WIDTH)} | #{player.points.ljust(STAT_COL_WIDTH)}"
+        end
+        puts "-" * LINE_WIDTH
+        puts "#{@home_team.name.upcase}"
+        puts "#{'PLAYERS'.ljust(PLAYER_COL_WIDTH)} | #{'MIN'.ljust(STAT_COL_WIDTH)} | #{'FG'.ljust(STAT_COL_WIDTH)} | 
+            #{'3PT'.ljust(STAT_COL_WIDTH)} | #{'FT'.ljust(STAT_COL_WIDTH)} | #{'REB'.ljust(STAT_COL_WIDTH)} | 
+            #{'AST'.ljust(STAT_COL_WIDTH)} | #{'PTS'.ljust(STAT_COL_WIDTH)}"
+        @home_team.players.each do |player|
+            puts "#{player.name.ljust(PLAYER_COL_WIDTH)} | #{player.minutes.ljust(STAT_COL_WIDTH)} | #{player.fgm}-#{player.fga.ljust(STAT_COL_WIDTH)} | 
+            #{player.trpm}-#{player.trpa.ljust(STAT_COL_WIDTH)} | #{player.ftm}-#{player.fta.ljust(STAT_COL_WIDTH)} | #{player.rebounds.ljust(STAT_COL_WIDTH)} | 
+            #{player.assists.ljust(STAT_COL_WIDTH)} | #{player.points.ljust(STAT_COL_WIDTH)}"
+        end
     end
 
     def add_players(away, home)
