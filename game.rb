@@ -84,8 +84,8 @@ class NbaSimulationGame
             player.points += 3
             player.fgm += 1
             player.fga += 1
-            player.threepm += 1
-            player.threepa += 1
+            player.trpm += 1
+            player.trpa += 1
         elsif result.include?("ftm")
             player.points += 1
             player.ftm += 1

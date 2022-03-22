@@ -1,7 +1,7 @@
 class Player
 
     attr_reader :name, :position, :minutes, :frequencies, :ft_per
-    attr_accessor :points, :rebounds, :assists, :posessions
+    attr_accessor :points, :rebounds, :assists, :fgm, :fga, :trpm, :trpa, :ftm, :fta 
 
     def initialize(name, position, minutes, frequencies, ft_per)
         @name, @position = name, position  
@@ -12,11 +12,10 @@ class Player
         @assists = 0
         @fgm = 0
         @fga = 0
-        @threepm = 0
-        @threepa = 0
+        @trpm = 0
+        @trpa = 0
         @ftm = 0 
-        @fta = 0
-        @posessions = []     
+        @fta = 0  
     end
 
     def get_ft_result
