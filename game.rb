@@ -75,7 +75,7 @@ class NbaSimulationGame
         end
     end
 
-    def score_player(result, player)
+    def update_player_stats(result, player)
         if result.include?("2")
             player.points += 2 
             player.fgm += 1
@@ -86,9 +86,11 @@ class NbaSimulationGame
             player.fga += 1
             player.threepm += 1
             player.threepa += 1
-        elsif result.include?("t")
+        elsif result.include?("ftm")
             player.points += 1
             player.ftm += 1
+            player.fta += 1
+        elsif result.include?("fta")
             player.fta += 1
         end
     end
@@ -98,6 +100,7 @@ class NbaSimulationGame
         2.times do
             ft_result = ft_shooter.get_ft_result
             score_ft(ft_result, ft_shooter)
+            update_player_stats(ft_result, ft_shooter)
         end
     end
 
@@ -130,7 +133,7 @@ class NbaSimulationGame
         if made_shot?(result)
             score_team(result)
             made_shooter = choose_player(result, @offensive_team)
-            score_player(result, made_shooter)
+            update_player_stats(result, made_shooter)
             display.possession_results << "#{@offensive_team.abbreviation} #{made_shooter.name} #{result[0]} pt made #{live_score}"
             if assisted?
                 assisting_player = choose_player("as", @offensive_team)
