@@ -1,7 +1,7 @@
 require_relative 'display'
 require_relative 'teams'
 require_relative 'players'
-# require 'byebug'
+require 'byebug'
 
 class NbaSimulationGame
     attr_reader :display, :player, :away_team_players, :home_team_players
@@ -59,7 +59,7 @@ class NbaSimulationGame
     def second_chance_opportunity?
         ind = rand(4)
         if ind == 0
-            display.possession_results << "#{@offensive_team.abbreviation} offensive rebound" 
+            offensive_rebound_simulator(@offensive_team)
             play_possession
         end
         false 
@@ -76,15 +76,20 @@ class NbaSimulationGame
     end
 
     def update_player_stats(result, player)
-        if result.include?("2")
+        if result.include?("2m")
             player.points += 2 
             player.fgm += 1
             player.fga += 1
-        elsif result.include?("3")
+        elsif result.include?("2a")
+            player.fga += 1
+        elsif result.include?("3m")
             player.points += 3
             player.fgm += 1
             player.fga += 1
             player.trpm += 1
+            player.trpa += 1
+        elsif result.include?("3a")
+            player.fga += 1
             player.trpa += 1
         elsif result.include?("ftm")
             player.points += 1
@@ -92,6 +97,12 @@ class NbaSimulationGame
             player.fta += 1
         elsif result.include?("fta")
             player.fta += 1
+        elsif result.include?("as")
+            player.assists += 1
+        elsif result.include?("dr")
+            player.rebounds += 1
+        elsif result.include?("or")
+            player.rebounds += 1
         end
     end
 
@@ -126,6 +137,17 @@ class NbaSimulationGame
         result = frequencies.shuffle[ind]
         result == "y" ? true : false
     end
+
+    def defensive_rebound_simulator(team)
+        rebounding_player = team.select_dr_player
+        update_player_stats("dr", rebounding_player)
+    end
+
+    def offensive_rebound_simulator(team)
+        rebounding_player = team.select_or_player
+        display.possession_results << "#{@offensive_team.abbreviation} #{rebounding_player.name} offensive rebound" 
+        update_player_stats("or", rebounding_player)
+    end
         
     def play_possession
         simulate_game_clock
@@ -137,11 +159,13 @@ class NbaSimulationGame
             display.possession_results << "#{@offensive_team.abbreviation} #{made_shooter.name} #{result[0]} pt made #{live_score}"
             if assisted?
                 assisting_player = choose_player("as", @offensive_team)
-                assisting_player.assists += 1
+                update_player_stats("as", assisting_player)
             end
         elsif missed_shot?(result)
             missed_shooter = choose_player(result, @offensive_team)
+            update_player_stats(result, missed_shooter)
             display.possession_results << "#{@offensive_team.abbreviation} #{missed_shooter.name} #{result[0]} pt missed #{live_score}"
+            defensive_rebound_simulator(@defensive_team)
             second_chance_opportunity?
         elsif result == "sf"
             display.possession_results << "shooting foul"
@@ -228,7 +252,7 @@ class NbaSimulationGame
     end
 
     def run
-        # debugger
+        debugger
         tip_off_simulation
         tip_off_winner = @offensive_team
         until first_quarter_over?

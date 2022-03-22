@@ -63,4 +63,26 @@ class Team
         assistor = flattened_frequencies.shuffle[rand_ind]
         assistor
     end
+
+    def select_dr_player
+        dr_freq = []
+        @players.each do |player|
+            dr_freq << [player] * player.frequencies.select{|stat| stat.include?("dr")}.count
+        end
+        flattened_frequencies = dr_freq.flatten
+        rand_ind = rand(flattened_frequencies.length)
+        rebounding_player = flattened_frequencies[rand_ind]
+        rebounding_player
+    end
+
+    def select_or_player
+        or_freq = []
+        @players.each do |player|
+            or_freq << [player] * player.frequencies.select{|stat| stat.include?("or")}.count
+        end
+        flattened_frequencies = dr_freq.flatten
+        rand_ind = rand(flattened_frequencies.length)
+        rebounding_player = flattened_frequencies[rand_ind]
+        rebounding_player
+    end
 end
