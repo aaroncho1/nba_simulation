@@ -1,7 +1,7 @@
 class Player
 
     attr_reader :name, :position, :minutes, :frequencies, :ft_per
-    attr_accessor :points, :rebounds, :posessions
+    attr_accessor :points, :rebounds, :assists, :posessions
 
     def initialize(name, position, minutes, frequencies, ft_per)
         @name, @position = name, position  
@@ -10,6 +10,8 @@ class Player
         @points = 0
         @rebounds = 0
         @assists = 0
+        @fgm = 0
+        @fga = 0
         @posessions = []     
     end
 
