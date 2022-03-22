@@ -60,7 +60,7 @@ class Team
         end
         flattened_frequencies = as_freqs.flatten
         rand_ind = rand(flattened_frequencies.length)
-        flattened_frequencies.shuffle[rand_ind]
+        assistor = flattened_frequencies.shuffle[rand_ind]
         assistor
     end
 end
