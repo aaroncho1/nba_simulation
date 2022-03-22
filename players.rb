@@ -12,6 +12,10 @@ class Player
         @assists = 0
         @fgm = 0
         @fga = 0
+        @threepm = 0
+        @threepa = 0
+        @ftm = 0 
+        @fta = 0
         @posessions = []     
     end
 
