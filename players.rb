@@ -13,4 +13,9 @@ class Player
         @posessions = []     
     end
 
+    def get_ft_result
+        ind = rand(ft_per.length)
+        result = ft_per.shuffle[ind]
+        result
+    end
 end
