@@ -1,7 +1,7 @@
 require_relative 'display'
 require_relative 'teams'
 require_relative 'players'
-require 'byebug'
+# require 'byebug'
 
 class NbaSimulationGame
     attr_reader :display, :player, :away_team_players, :home_team_players
@@ -252,7 +252,7 @@ class NbaSimulationGame
     end
 
     def run
-        debugger
+        # debugger
         tip_off_simulation
         tip_off_winner = @offensive_team
         until first_quarter_over?

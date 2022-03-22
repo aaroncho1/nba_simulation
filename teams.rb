@@ -80,7 +80,7 @@ class Team
         @players.each do |player|
             or_freq << [player] * player.frequencies.select{|stat| stat.include?("or")}.count
         end
-        flattened_frequencies = dr_freq.flatten
+        flattened_frequencies = or_freq.flatten
         rand_ind = rand(flattened_frequencies.length)
         rebounding_player = flattened_frequencies[rand_ind]
         rebounding_player
