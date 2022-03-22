@@ -5,9 +5,9 @@ require_relative 'players'
 
 class NbaSimulationGame
 
-    LINE_WIDTH = 28
+    LINE_WIDTH = 61
     PLAYER_COL_WIDTH = 15
-    STAT_COL_WIDTH = 10
+    STAT_COL_WIDTH = 6
     attr_reader :display, :player, :away_team_players, :home_team_players
     attr_accessor :game_clock, :overtime_clock
 
@@ -136,7 +136,7 @@ class NbaSimulationGame
     end
 
     def assisted?
-        frequencies = ["y", "n", "n", "n"]
+        frequencies = ["y", "n"]
         ind = rand(frequencies.length)
         result = frequencies.shuffle[ind]
         result == "y" ? true : false
@@ -300,17 +300,17 @@ class NbaSimulationGame
 
     def display_box_score
         puts ""
-        puts "--------BOX SCORE-----------"
+        puts "-" * 26 + "BOX SCORE" + "-" * 26
         puts "#{@away_team.name.upcase}"
         puts "#{'PLAYERS'.ljust(PLAYER_COL_WIDTH)} #{'MIN'.ljust(STAT_COL_WIDTH)} #{'FG'.ljust(STAT_COL_WIDTH)} #{'3PT'.ljust(STAT_COL_WIDTH)} #{'FT'.ljust(STAT_COL_WIDTH)} #{'REB'.ljust(STAT_COL_WIDTH)} #{'AST'.ljust(STAT_COL_WIDTH)} #{'PTS'.ljust(STAT_COL_WIDTH)}"
         @away_team.players.each do |player|
-            puts "#{player.name.ljust(PLAYER_COL_WIDTH)} #{player.minutes.to_s.ljust(STAT_COL_WIDTH)} #{player.fgm.to_s}-#{player.fga.to_s.ljust(STAT_COL_WIDTH)} #{player.trpm.to_s}-#{player.trpa.to_s.ljust(STAT_COL_WIDTH)} #{player.ftm.to_s}-#{player.fta.to_s.ljust(STAT_COL_WIDTH)} #{player.rebounds.to_s.ljust(STAT_COL_WIDTH)} #{player.assists.to_s.ljust(STAT_COL_WIDTH)} #{player.points.to_s.ljust(STAT_COL_WIDTH)}"
+            puts "#{player.name.ljust(PLAYER_COL_WIDTH)} #{player.minutes.to_s.ljust(STAT_COL_WIDTH)} #{(player.fgm.to_s + "-" + player.fga.to_s).ljust(STAT_COL_WIDTH)} #{(player.trpm.to_s + "-" + player.trpa.to_s).ljust(STAT_COL_WIDTH)} #{(player.ftm.to_s + "-" + player.fta.to_s).ljust(STAT_COL_WIDTH)} #{player.rebounds.to_s.ljust(STAT_COL_WIDTH)} #{player.assists.to_s.ljust(STAT_COL_WIDTH)} #{player.points.to_s.ljust(STAT_COL_WIDTH)}"
         end
         puts "-" * LINE_WIDTH
         puts "#{@home_team.name.upcase}"
         puts "#{'PLAYERS'.ljust(PLAYER_COL_WIDTH)} #{'MIN'.ljust(STAT_COL_WIDTH)} #{'FG'.ljust(STAT_COL_WIDTH)} #{'3PT'.ljust(STAT_COL_WIDTH)} #{'FT'.ljust(STAT_COL_WIDTH)} #{'REB'.ljust(STAT_COL_WIDTH)} #{'AST'.ljust(STAT_COL_WIDTH)} #{'PTS'.ljust(STAT_COL_WIDTH)}"
         @home_team.players.each do |player|
-            puts "#{player.name.ljust(PLAYER_COL_WIDTH)} #{player.minutes.to_s.ljust(STAT_COL_WIDTH)} #{player.fgm.to_s}-#{player.fga.to_s.ljust(STAT_COL_WIDTH)} #{player.trpm.to_s}-#{player.trpa.to_s.ljust(STAT_COL_WIDTH)} #{player.ftm.to_s}-#{player.fta.to_s.ljust(STAT_COL_WIDTH)} #{player.rebounds.to_s.ljust(STAT_COL_WIDTH)} #{player.assists.to_s.ljust(STAT_COL_WIDTH)} #{player.points.to_s.ljust(STAT_COL_WIDTH)}"
+            puts "#{player.name.ljust(PLAYER_COL_WIDTH)} #{player.minutes.to_s.ljust(STAT_COL_WIDTH)} #{(player.fgm.to_s + "-" + player.fga.to_s).ljust(STAT_COL_WIDTH)} #{(player.trpm.to_s + "-" + player.trpa.to_s).ljust(STAT_COL_WIDTH)} #{(player.ftm.to_s + "-" + player.fta.to_s).ljust(STAT_COL_WIDTH)} #{player.rebounds.to_s.ljust(STAT_COL_WIDTH)} #{player.assists.to_s.ljust(STAT_COL_WIDTH)} #{player.points.to_s.ljust(STAT_COL_WIDTH)}"
         end
     end
 
