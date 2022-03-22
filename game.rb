@@ -132,7 +132,10 @@ class NbaSimulationGame
             made_shooter = choose_player(result, @offensive_team)
             score_player(result, made_shooter)
             display.possession_results << "#{@offensive_team.abbreviation} #{made_shooter.name} #{result[0]} pt made #{live_score}"
-            choose_player("as", @offensive_team) if assisted?
+            if assisted?
+                assisting_player = choose_player("as", @offensive_team)
+                assisting_player.assists += 1
+            end
         elsif missed_shot?(result)
             missed_shooter = choose_player(result, @offensive_team)
             display.possession_results << "#{@offensive_team.abbreviation} #{missed_shooter.name} #{result[0]} pt missed #{live_score}"
