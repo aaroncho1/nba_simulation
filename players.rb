@@ -1,6 +1,6 @@
 class Player
 
-    attr_reader :name, :position, :minutes, :frequencies
+    attr_reader :name, :position, :minutes, :frequencies, :ft_per
     attr_accessor :points, :rebounds, :posessions
 
     def initialize(name, position, minutes, frequencies, ft_per)
